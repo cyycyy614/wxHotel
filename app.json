@@ -13,27 +13,44 @@
     "backgroundTextStyle": "light",
     "backgroundColor": "#f66e26",
     "navigationBarBackgroundColor": "#f66e26",
-    "navigationBarTitleText": "UU酒店",
+    "navigationBarTitleText": "旅辰智慧酒店",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#333333",
-    "selectedColor": "#f66e26",
+    "selectedColor": "#bf652e",
     "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/homePage/homePage",
-        "text": "首页",
-        "iconPath": "res/images/ic_home_normal.png",
-        "selectedIconPath": "res/images/ic_home_selected.png"
+        "text": "预订",
+        "iconPath": "res/images/ic_reserve.png",
+        "selectedIconPath": "res/images/ic_reserve_selected.png"
+      },
+      {
+        "pagePath": "pages/orderList/orderList",
+        "text": "订单",
+        "iconPath": "res/images/ic_order.png",
+        "selectedIconPath": "res/images/ic_order_selected.png"
       },
       {
         "pagePath": "pages/minePage/minePage",
         "text": "我的",
-        "iconPath": "res/images/ic_mine_normal.png",
-        "selectedIconPath": "res/images/ic_mine_selected.png"
+        "iconPath": "res/images/ic_user.png",
+        "selectedIconPath": "res/images/ic_user_selected.png"
       }
     ]
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "requiredPrivateInfos": [     
+    "getLocation",    
+    "onLocationChange",    
+    "startLocationUpdateBackground",    
+    "chooseAddress" 
+    ]
 }

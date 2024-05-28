@@ -35,15 +35,15 @@ Page({
           homeAdvertises: [
                {
                     'imgSrc': '../../res/images/ic_home_advertise.png',
-                    'webUrl': ''
+                    'id': '1'
                },
                {
                     'imgSrc': '../../res/images/ic_home_advertise.png',
-                    'webUrl': ''
+                    'id': '2'
                },
                {
                     'imgSrc': '../../res/images/ic_home_advertise.png',
-                    'webUrl': ''
+                    'id': '3'
                }
           ],
 
@@ -100,9 +100,10 @@ Page({
                     }, 'GET', {
                               'content-type': 'application/json'
                          }, function (result) {
+                              console.log(result)
                               if (result) {
                                    that.setData({
-                                        location: result.result.address_component.city
+                                        location: result.result.address_component.locality
                                    });
                               } else {
                                    that.setData({
