@@ -7,7 +7,7 @@ Page {
 
 .homeHeader {
      width: 100%;
-     height: 340rpx;
+     height: 400rpx;
 }
 
 .homeHeader .swiper {
@@ -39,10 +39,10 @@ Page {
 }
 
 .filterContent {
+    position: relative;
      width: 100%;
      box-sizing: border-box;
-     position: absolute;
-     top: 260rpx;
+     top: -50rpx;
      padding: 0 28rpx;
 }
 
@@ -55,17 +55,28 @@ Page {
      box-shadow: 0rpx 8rpx 20rpx #bbb;
      border-radius: 14rpx;
      background: white;
+     padding: 0 40rpx;
 }
 
 .location {
      width: 100%;
      height: max-content;
      box-sizing: border-box;
-     padding: 22rpx 30rpx;
+     padding: 22rpx 0;
      display: flex;
      flex-direction: row;
      align-items: center;
      border-bottom: 1rpx solid #eee;
+}
+
+.commonBtn{
+  padding: 20rpx 0;
+  margin: 30rpx 0;
+}
+
+.location .my-location{
+  font-size: 24rpx;
+  margin-right: 10rpx;
 }
 
 .location .icon {
@@ -98,7 +109,7 @@ Page {
      box-sizing: border-box;
      width: 100%;
      background: white;
-     padding: 24rpx;
+     padding: 24rpx 0 0 0;
      display: flex;
      flex-direction: row;
      align-items: center;
@@ -107,8 +118,16 @@ Page {
 .divideText {
      flex: 1;
      text-align: center;
-     font-size: 24rpx;
-     color: #999;
+     font-size: 22rpx;
+}
+
+.section-search{
+  border-bottom: 1rpx solid #eee;
+  font-size: 24rpx;
+}
+
+.section-search .home-input{
+  padding: 20rpx 0;
 }
 
 .dateContent {
@@ -116,7 +135,7 @@ Page {
      height: max-content;
      display: flex;
      flex-direction: row;
-     padding: 10rpx 10rpx 26rpx;
+     padding: 20rpx 10rpx 26rpx;
      box-sizing: border-box;
      align-items: center;
      border-bottom: 1rpx solid #eee;
@@ -131,14 +150,14 @@ Page {
 }
 
 .dateItem .date {
-     display: flex;
-     flex-direction: row;
+     /* display: flex;
+     flex-direction: row; */
      margin: 0 auto;
 }
 
 .dateItem .date .day {
      height: fit-content;
-     font-size: 45rpx;
+     font-size: 56rpx;
      color: #ee6715;
      text-align: center;
 }
@@ -156,6 +175,29 @@ Page {
 }
 
 .dayCount {
-     font-size: 32rpx;
+     font-size: 22rpx;
      margin: 0 10rpx;
+     letter-spacing: 10rpx;
+     border-radius: 50rpx;
+     border: 1px solid #e7e7e7;
+     padding: 10rpx 24rpx;
 }
+.section-select-city{
+  position: absolute;
+  bottom: 0;
+  height: 80%;
+  width: 100%;
+  z-index: 100;
+  background-color: #ffffff;
+}
+
+.more{
+  padding: 0 20rpx 0 30rpx ;
+  margin-top: -20rpx;
+}
+.more-title{
+  font-size: 36rpx;
+  color: #000000;
+  font-weight: 600;
+}
+

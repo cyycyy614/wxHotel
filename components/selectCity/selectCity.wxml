@@ -1,13 +1,29 @@
 <!--components/selectCity/selectCity.wxml-->
-<scroll-view class='cityList' scroll-y scroll-into-view='{{currentIndex}}' scroll-top='{{scrollTop}}'>
-     <view wx:for='{{allCities}}'>
-          <view class='letter-class' id="id{{index}}">{{item.letter}}</view>
-          <view class='item-class' wx:for='{{item.cityList}}' wx:for-item='cityItem' bindtap='citySelectEvent' data-city='{{cityItem.name}}' data-letter='{{cityItem.key}}'>{{cityItem.name}}</view>
-     </view>
-</scroll-view>
+<view class="select-city">
+  <view class="select-city-head">
+    <view class="title">选择城市</view>
+    <image class="close" src="../../res/images/close.png" bind:tap="handleClose"></image>
+  </view>
+  <!-- 位置信息 -->
+  <view class="location-info">
+    <view class="location" wx:if="{{!city}}"><text class="label">当前位置：</text><text class="current-location">{{currentLocation}}</text></view>
+    <view class="location">
+    <text class="label">选择城市：</text>
+    <image src='../../res/images/ic_city_location.png' mode='aspectFit' class='icon' bindtap='getLocalLocation' />
+    <text class="current-city">{{city || '暂无城市'}}</text>
+    </view>
+  </view>
+  <!-- 城市列表 -->
+  <scroll-view class='cityList' scroll-y scroll-into-view='{{currentIndex}}' scroll-top='{{scrollTop}}'>
+    <view wx:for='{{allCities}}' wx:key="index">
+      <view class='letter-class' id="id{{index}}">{{item.letter}}</view>
+      <view class='item-class' wx:for='{{item.cityList}}' wx:for-item='cityItem' wx:key='id' bindtap='citySelectEvent' data-row='{{cityItem}}'>{{cityItem.name}}</view>
+    </view>
+  </scroll-view>
 
-<view class='citySlide' catchtouchstart='slideStart' catchtouchmove='slideMove' catchtouchend='slideEnd'>
-     <view class='citySlideItem' wx:for='{{allCities}}' data-index='{{index}}'>{{item.letter}}</view>
+  <view class='citySlide' catchtouchstart='slideStart' catchtouchmove='slideMove' catchtouchend='slideEnd'>
+    <view class='citySlideItem' wx:for='{{allCities}}' wx:key="index" data-index='{{index}}'>{{item.letter}}</view>
+  </view>
+
+  <text class='letterText' hidden='{{isLetterHidden}}' style='top:{{letterTop}}px;left:{{letterLeft}}px'>{{letterText}}</text>
 </view>
-
-<text class='letterText' hidden='{{isLetterHidden}}' style='top:{{letterTop}}px;left:{{letterLeft}}px'>{{letterText}}</text>

@@ -1,6 +1,6 @@
 // pages/homePage/homePage.js
 var app = getApp();
-var locationUrl = 'http://apis.map.qq.com/ws/geocoder/v1/';
+var locationUrl = 'https://apis.map.qq.com/ws/geocoder/v1/';
 const tencentMapKey = 'ZNDBZ-W3YR6-6KXSB-MLKXV-6HFXK-UMFOT';
 
 var currentYear = new Date().getFullYear();
@@ -28,302 +28,336 @@ var dayCount = 1;
 
 Page({
 
-     /**
-      * 页面的初始数据
-      */
-     data: {
-          homeAdvertises: [
-               {
-                    'imgSrc': '../../res/images/ic_home_advertise.png',
-                    'id': '1'
-               },
-               {
-                    'imgSrc': '../../res/images/ic_home_advertise.png',
-                    'id': '2'
-               },
-               {
-                    'imgSrc': '../../res/images/ic_home_advertise.png',
-                    'id': '3'
-               }
-          ],
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    homeAdvertises: [{
+        'imgSrc': '../../res/images/ic_home_advertise.png',
+        'id': '1'
+      },
+      {
+        'imgSrc': '../../res/images/ic_home_advertise.png',
+        'id': '2'
+      },
+      {
+        'imgSrc': '../../res/images/ic_home_advertise.png',
+        'id': '3'
+      }
+    ],
+    searchKey: '',
+    isShowSelectCity: true,
+    location: '定位中...',
+    currentLocation: '',
+    currentCity: '',
+    cityId: '',
+    startDate: '',
+    currentDate: '',
+    endOfStartDate: '',
+    endDate: '',
+    endOfEndDate: '',
+    startDay: '',
+    startMonth: '',
+    startWeek: '',
+    endDay: '',
+    endMonth: '',
+    endWeek: '',
+    dayCount: 1,
+    allCities: []
+  },
 
-          location: '定位中...',
-          startDate: '',
-          currentDate: '',
-          endOfStartDate: '',
-          endDate: '',
-          endOfEndDate: '',
-          startDay: '',
-          startMonth: '',
-          startWeek: '',
-          endDay: '',
-          endMonth: '',
-          endWeek: '',
-          dayCount: 1,
-     },
+  // 城市选择
+  onCitySelect: function (e) {
+    console.log('城市选择', e);
+    const data = e.detail
+    this.setData({
+      location: data.city,
+      cityId: data.id,
+      isShowSelectCity: false
+    });
+  },
 
-     /**
-      * 生命周期函数--监听页面加载
-      */
-     onLoad: function (options) {
-          this.getLocalLocation();
+  // 城市弹框关闭
+  onCityClose: function () {
+    this.setData({
+      isShowSelectCity: false
+    });
+  },
 
-          startDate = currentDate;
-          startYear = currentYear;
-          startDay = currentDay;
-          startMonth = currentMonth;
-          startWeek = currentWeek;
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.getLocalLocation();
 
-          this.initEndDate();
+    startDate = currentDate;
+    startYear = currentYear;
+    startDay = currentDay;
+    startMonth = currentMonth;
+    startWeek = currentWeek;
 
-          this.setSearchDate();
-     },
+    this.initEndDate();
 
-     homeAdvertisesTap: function (e) {
-          var index = e.currentTarget.dataset.index;
-          wx.showToast({
-               title: '点击了' + index,
-               icon: 'none'
-          })
-     },
+    this.setSearchDate();
+  },
 
-     getLocalLocation: function () {
-          this.setData({
-               location: '定位中...'
-          });
-          var that = this;
-          wx.getLocation({
-               success: function (res) {
-                    app.func.httpRequest(locationUrl, {
-                         key: tencentMapKey,
-                         location: res.latitude + ',' + res.longitude
-                    }, 'GET', {
-                              'content-type': 'application/json'
-                         }, function (result) {
-                              console.log(result)
-                              if (result) {
-                                   that.setData({
-                                        location: result.result.address_component.locality
-                                   });
-                              } else {
-                                   that.setData({
-                                        location: '定位失败'
-                                   });
-                              }
-                         });
-               },
-               fail: function (res) {
-                    that.setData({
-                         location: '定位失败'
-                    });
-               }
-          })
-     },
+  homeAdvertisesTap: function (e) {
+    var index = e.currentTarget.dataset.index;
+    wx.showToast({
+      title: '点击了' + index,
+      icon: 'none'
+    })
+  },
 
-     selectCity: function () {
-          wx.navigateTo({
-               url: '../select_city/select_city'
-          })
-     },
-
-     searchEvent: function () {
-          if (location == '定位中...') {
-               wx.showToast({
-                    title: '定位中，请稍后',
-                    icon: 'none'
-               })
+  getLocalLocation: function () {
+    this.setData({
+      location: '定位中...'
+    });
+    var that = this;
+    wx.getLocation({
+      success: function (res) {
+        app.func.httpRequest(locationUrl, {
+          key: tencentMapKey,
+          location: res.latitude + ',' + res.longitude
+        }, 'GET', {
+          'content-type': 'application/json'
+        }, function (result) {
+          console.log(result)
+          if (result) {
+            that.setData({
+              currentLocation: result.result.address_component.district,
+              location: result.result.address_component.district
+            });
           } else {
-               wx.navigateTo({
-                    url: '../../pages/searchHotel/searchHotel?location=' + this.data.location,
-               })
+            that.setData({
+              location: '定位失败',
+              currentLocation: ''
+            });
           }
-     },
+        });
+      },
+      fail: function (res) {
+        that.setData({
+          location: '定位失败'
+        });
+      }
+    })
+  },
 
-     filterTap: function () {
-          if (location == '定位中...') {
-               wx.showToast({
-                    title: '定位中，请稍后',
-                    icon: 'none'
-               })
-          } else {
-               wx.navigateTo({
-                    url: '../../pages/searchHotel/searchHotel?location=' + this.data.location,
-               })
-          }
-     },
+  selectCity: function (e) {
+    const city = e.currentTarget.dataset.city;
+    this.setData({
+      isShowSelectCity: true,
+      city: city
+    })
+  },
 
-     nearbyTap: function () {
-          if (location == '定位中...') {
-               wx.showToast({
-                    title: '定位中，请稍后',
-                    icon: 'none'
-               })
-          } else {
-               wx.navigateTo({
-                    url: '../../pages/searchHotel/searchHotel?location=' + this.data.location,
-               })
-          }
-     },
+  searchEvent: function () {
+    if (location == '定位中...') {
+      wx.showToast({
+        title: '定位中，请稍后',
+        icon: 'none'
+      })
+    } else {
+      wx.navigateTo({
+        url: '../../pages/searchHotel/searchHotel?location=' + this.data.location,
+      })
+    }
+  },
 
-     startDateChange: function (e) {
-          console.log(e);
-          startDate = e.detail.value;
-          var startArray = startDate.split('-');
-          startYear = parseInt(startArray[0]);
-          startDay = parseInt(startArray[2]);
-          startMonth = parseInt(startArray[1]);
-          startWeek = new Date(startYear, startMonth, startDay).getDay();
+  filterTap: function () {
+    if (location == '定位中...') {
+      wx.showToast({
+        title: '定位中，请稍后',
+        icon: 'none'
+      })
+    } else {
+      wx.navigateTo({
+        url: '../../pages/searchHotel/searchHotel?location=' + this.data.location,
+      })
+    }
+  },
 
-          var startFormat = this.formatDate(startDate);
-          var endFormat = this.formatDate(endDate);
-          if (new Date(endFormat) < new Date(startFormat)) {
-               this.initEndDate();
-          }
+  nearbyTap: function () {
+    if (location == '定位中...') {
+      wx.showToast({
+        title: '定位中，请稍后',
+        icon: 'none'
+      })
+    } else {
+      wx.navigateTo({
+        url: '../../pages/searchHotel/searchHotel?location=' + this.data.location,
+      })
+    }
+  },
 
-          this.setSearchDate();
-     },
+  startDateChange: function (e) {
+    console.log(e);
+    startDate = e.detail.value;
+    var startArray = startDate.split('-');
+    startYear = parseInt(startArray[0]);
+    startDay = parseInt(startArray[2]);
+    startMonth = parseInt(startArray[1]);
+    startWeek = new Date(startYear, startMonth, startDay).getDay();
 
-     endDateChange: function (e) {
-          console.log(e);
-          endDate = e.detail.value;
-          var endArray = endDate.split('-');
-          endYear = parseInt(endArray[0]);
-          endDay = parseInt(endArray[2]);
-          endMonth = parseInt(endArray[1]);
-          endWeek = new Date(endYear, endMonth, endDay).getDay();
+    var startFormat = this.formatDate(startDate);
+    var endFormat = this.formatDate(endDate);
+    if (new Date(endFormat) < new Date(startFormat)) {
+      this.initEndDate();
+    }
 
-          this.setSearchDate();
-     },
+    this.setSearchDate();
+  },
 
-     getWeekday: function (week) {
-          var weekday = new Array(7)
-          weekday[0] = "周日"
-          weekday[1] = "周一"
-          weekday[2] = "周二"
-          weekday[3] = "周三"
-          weekday[4] = "周四"
-          weekday[5] = "周五"
-          weekday[6] = "周六"
+  endDateChange: function (e) {
+    console.log(e);
+    endDate = e.detail.value;
+    var endArray = endDate.split('-');
+    endYear = parseInt(endArray[0]);
+    endDay = parseInt(endArray[2]);
+    endMonth = parseInt(endArray[1]);
+    endWeek = new Date(endYear, endMonth, endDay).getDay();
 
-          return weekday[week];
-     },
+    this.setSearchDate();
+  },
 
-     prefixInteger: function (num, length) {
-          return (Array(length).join('0') + num).slice(-length);
-     },
+  getWeekday: function (week) {
+    var weekday = new Array(7)
+    weekday[0] = "周日"
+    weekday[1] = "周一"
+    weekday[2] = "周二"
+    weekday[3] = "周三"
+    weekday[4] = "周四"
+    weekday[5] = "周五"
+    weekday[6] = "周六"
 
-     getDayCount: function (startDate, endDate) {
-          var startFormat = this.formatDate(startDate);
-          var endFormat = this.formatDate(endDate);
-          console.log(startFormat + "->" + endFormat);
-          var start = new Date(startFormat);
-          var end = new Date(endFormat);
+    return weekday[week];
+  },
 
-          console.log(start + "->" + end);
-          var result = end - start;
-          if (result >= 0) {
-               var days = parseInt(result / (1000 * 60 * 60 * 24));
-               return days == 0 ? 1 : days;
-          } else {
-               return 0;
-          }
-     },
+  prefixInteger: function (num, length) {
+    return (Array(length).join('0') + num).slice(-length);
+  },
 
-     formatDate: function (date) {
-          return date.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').replace(/(-)/g, '/');
-     },
+  getDayCount: function (startDate, endDate) {
+    var startFormat = this.formatDate(startDate);
+    var endFormat = this.formatDate(endDate);
+    console.log(startFormat + "->" + endFormat);
+    var start = new Date(startFormat);
+    var end = new Date(endFormat);
 
-     initEndDate: function () {
-          startDayCount = new Date(startYear, startMonth, 0).getDate();
+    console.log(start + "->" + end);
+    var result = end - start;
+    if (result >= 0) {
+      var days = parseInt(result / (1000 * 60 * 60 * 24));
+      return days == 0 ? 1 : days;
+    } else {
+      return 0;
+    }
+  },
 
-          if (startMonth == 12 && startDay == 31) {
-               endYear = startYear + 1;
-               endMonth = 1;
-               endDay = 1;
-          } else {
-               endYear = startYear;
-               if (startDay <= startDayCount) {
-                    endMonth = startMonth
-                    endDay = startDay + 1;
-               } else {
-                    endMonth = startMonth + 1;
-                    endDay = 1;
-               }
-          }
-          if (currentWeek >= 7) {
-               endWeek = 1;
-          } else {
-               endWeek = currentWeek + 1;
-          }
-          endDate = endYear + '-' + endMonth + '-' + endDay;
-     },
+  formatDate: function (date) {
+    return date.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').replace(/(-)/g, '/');
+  },
 
-     setSearchDate: function () {
-          this.setData({
-               currentDate: currentDate,
+  bindKeyInput(e) {
+    this.setData({
+      searchKey: e.detail.value
+    })
+  },
 
-               startDate: startDate,
-               startDay: this.prefixInteger(startDay, 2),
-               startMonth: this.prefixInteger(startMonth, 2),
-               startWeek: this.getWeekday(startWeek),
-               endOfStartDate: '2020-12-31',
+  initEndDate: function () {
+    startDayCount = new Date(startYear, startMonth, 0).getDate();
 
-               endDate: endDate,
-               endDay: this.prefixInteger(endDay, 2),
-               endMonth: this.prefixInteger(endMonth, 2),
-               endWeek: this.getWeekday(endWeek),
-               endOfEndDate: '2020-12-31',
+    if (startMonth == 12 && startDay == 31) {
+      endYear = startYear + 1;
+      endMonth = 1;
+      endDay = 1;
+    } else {
+      endYear = startYear;
+      if (startDay <= startDayCount) {
+        endMonth = startMonth
+        endDay = startDay + 1;
+      } else {
+        endMonth = startMonth + 1;
+        endDay = 1;
+      }
+    }
+    if (currentWeek >= 7) {
+      endWeek = 1;
+    } else {
+      endWeek = currentWeek + 1;
+    }
+    endDate = endYear + '-' + endMonth + '-' + endDay;
+  },
 
-               dayCount: this.getDayCount(startDate, endDate)
-          });
-     },
+  setSearchDate: function () {
+    this.setData({
+      currentDate: currentDate,
 
-     /**
-      * 生命周期函数--监听页面初次渲染完成
-      */
-     onReady: function () {
+      startDate: startDate,
+      startDay: this.prefixInteger(startDay, 2),
+      startMonth: this.prefixInteger(startMonth, 2),
+      startYear: this.prefixInteger(startYear, 4),
+      startWeek: this.getWeekday(startWeek),
+      endOfStartDate: '2020-12-31',
 
-     },
+      endDate: endDate,
+      endDay: this.prefixInteger(endDay, 2),
+      endMonth: this.prefixInteger(endMonth, 2),
+      endYear: this.prefixInteger(endYear, 4),
+      endWeek: this.getWeekday(endWeek),
+      endOfEndDate: '2020-12-31',
 
-     /**
-      * 生命周期函数--监听页面显示
-      */
-     onShow: function () {
+      dayCount: this.getDayCount(startDate, endDate)
+    });
+  },
 
-     },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
 
-     /**
-      * 生命周期函数--监听页面隐藏
-      */
-     onHide: function () {
+  },
 
-     },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
 
-     /**
-      * 生命周期函数--监听页面卸载
-      */
-     onUnload: function () {
+  },
 
-     },
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
 
-     /**
-      * 页面相关事件处理函数--监听用户下拉动作
-      */
-     onPullDownRefresh: function () {
+  },
 
-     },
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
 
-     /**
-      * 页面上拉触底事件的处理函数
-      */
-     onReachBottom: function () {
+  },
 
-     },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
 
-     /**
-      * 用户点击右上角分享
-      */
-     onShareAppMessage: function () {
+  },
 
-     }
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
 })

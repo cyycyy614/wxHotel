@@ -24,19 +24,20 @@
 .commonBtn, .commonBtnHover {
      display: block;
      color: white;
-     font-size: 32rpx;
-     padding: 10px;
-     border-radius: 5px;
-     margin: 40rpx;
+     font-size: 34rpx;
+     letter-spacing: 4rpx;
+     padding: 25rpx;
+     border-radius: 50rpx;
+     margin: 30rpx;
      text-align: center;
 }
 
 .commonBtn {
-     background: #fd7a33;
+  background: linear-gradient(to right, #f5c4a6, #bf652e);
 }
 
 .commonBtnHover {
-     background: #e55507;
+  background: linear-gradient(to right, #f5c4a6, #bf652e);
 }
 
 .common_search_input {

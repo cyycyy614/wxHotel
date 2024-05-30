@@ -3,7 +3,7 @@ var cities = require('../../common/city.js');
 var letterLineHeight = 0;
 
 Component({
-     externalClasses: ['letter-class', 'item-class'],
+    //  externalClasses: ['letter-class', 'item-class'],
      /**
       * 组件的属性列表
       */
@@ -12,6 +12,14 @@ Component({
                type: Array,
                value: cities,
                // observer: citiesObserver
+          },
+          currentLocation: {
+            type: String,
+            value: ''
+          },
+          city: {
+            type: String,
+            value: ''
           }
      },
 
@@ -31,14 +39,15 @@ Component({
       * 组件的方法列表
       */
      methods: {
+          // 关闭
+          handleClose: function (e) {
+            this.triggerEvent('close');
+          },
+          // 选择
           citySelectEvent: function (e) {
-               var city = e.target.dataset.city;
-               var letter = e.target.dataset.letter;
-               var detail = {
-                    city: city,
-                    letter: letter
-               };
-               this.triggerEvent('citySelect', detail);
+               var row = e.target.dataset.row;
+               row.city = row.name
+               this.triggerEvent('citySelect', row);
           },
 
           citiesObserver: function (newVal, oldVal) {
