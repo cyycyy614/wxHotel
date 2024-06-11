@@ -108,7 +108,7 @@ Component({
           this.setData({
                allCities: cityArray
           });
-
+          console.log(this.data)
           wx.getSystemInfo({
                success: function (res) {
                     letterLineHeight = (res.windowHeight - 80) / that.data.allCities.length;

@@ -1,0 +1,9 @@
+<!--pages/loginSelect/loginSelect.wxml-->
+<view class='loginHeader'>
+     <image src='../../res/images/avatar.png' class='userHead' mode='aspectFill' bindtap='previewHead' />
+     <view class='userTitle'>微信用户</view>
+</view>
+
+<button class='commonBtn' hover-class='commonBtnHover' hover-stay-time='100' bindtap="getUserProfile">手机号码快捷登录</button>
+
+<view class='textBtn' hover-class='textBtnHover' bindtap='userLoginTap' hover-stay-time='100'>更换其他登录方式</view>

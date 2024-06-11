@@ -1,0 +1,17 @@
+/* pages/loginSelect/loginSelect.wxss */
+.loginHeader{
+  padding: 200rpx 40rpx 30rpx 40rpx;
+  text-align: center;
+}
+.userHead{
+  width: 48px;
+  height: 48px;
+}
+.userTitle{
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+.commonBtn{
+  line-height: 1.5;
+}

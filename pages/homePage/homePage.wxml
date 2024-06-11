@@ -8,7 +8,7 @@
 <view class='filterContent'>
      <view class='filterView'>
           <view class='location'>
-               <text class='city' bindtap='selectCity' data-city="{{currentCity}}">{{location}}</text>
+               <text class='city' bindtap='selectCity' data-city="{{location}}">{{location}}</text>
                <view bindtap='selectCity'>
                 <text class="my-location">我的位置</text>
                 <image src='../../res/images/ic_city_location.png' mode='aspectFit' class='icon' bindtap='getLocalLocation' />

@@ -7,7 +7,9 @@
     "pages/searchHotel/searchHotel",
     "pages/hotelDetail/hotelDetail",
     "pages/hotelFilter/hotelFilter",
-    "pages/bookHotel/bookHotel"
+    "pages/bookHotel/bookHotel",
+    "pages/loginSelect/loginSelect",
+    "pages/userLogin/userLogin"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -47,10 +49,10 @@
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   },
-  "requiredPrivateInfos": [     
-    "getLocation",    
-    "onLocationChange",    
-    "startLocationUpdateBackground",    
-    "chooseAddress" 
-    ]
+  "requiredPrivateInfos": [
+    "getLocation",
+    "onLocationChange",
+    "startLocationUpdateBackground",
+    "chooseAddress"
+  ]
 }

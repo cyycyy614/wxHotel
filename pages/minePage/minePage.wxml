@@ -3,7 +3,7 @@
 
 <view class='loginHeader'>
      <image src='{{userHead}}' class='userHead' mode='aspectFill' bindtap='previewHead' />
-     <text class='userTitle' bindtap='loginTap'>{{userTitle}}</text>
+     <text class='userTitle' bindtap='loginSelectTap'>{{userTitle}}</text>
 </view>
 
 <view class='order'>

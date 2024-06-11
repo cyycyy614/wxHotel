@@ -1,6 +1,6 @@
 //app.js
-var commonUtils = require('common/commonUtils.js');
-var httpRequest = require('common/request.js');
+const { getOpenId } = require('api/login.js');
+const commonUtils = require('common/commonUtils');
 
 App({
      onLaunch: function () {
@@ -25,8 +25,21 @@ App({
      loginWx: function () {
           // 登录
           wx.login({
-               success: res => {
+               success: loginRes => {
                     // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                    console.log(res)
+                    getOpenId({code: loginRes.code}).then( res => {
+                      if (res.state) {
+                        this.globalData.phone = res.data.phone;            
+                        wx.setStorage({
+                          data: res.data.sessionId,
+                          key: 'sessionId',
+                        });
+                      }
+                      else {
+                        console.log(res.msg);
+                      }
+                    })
                }
           })
           // 获取用户信息
@@ -55,7 +68,6 @@ App({
           isVersionHigh: false
      },
      func: {
-          httpRequest: httpRequest.httpRequest,
           dateFormat: commonUtils.dateFormat,
           floatAdd: commonUtils.floatAdd,
           floatSub: commonUtils.floatSub,

@@ -1,0 +1,25 @@
+<!--pages/userLogin/userLogin.wxml-->
+<view class="card">
+  <form class="form" catchsubmit="formSubmit" catchreset="formReset">
+    <view class="formCnt">
+      <view class="page-section">
+        <view class="page-section-title">手机号</view>
+        <view class="page-section-comp">
+          <input class="weui-input" name="input" placeholder="请输入手机号" bindinput="bindPhoneInput"/>
+        </view>
+      </view>
+
+      <view class="page-section nborder">
+        <view class="page-section-title">验证码</view>
+        <view class="page-section-comp">
+          <input class="weui-input" name="input" placeholder="请输入验证码" bindinput="bindCodeInput"/>
+          <view class="code" bind:tap="handleSendCode">{{text}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class="commonBtn" type="primary" formType="submit">登录</button>
+      <view class="commonBtn grey" formType="reset">回到首页</view>
+    </view>
+  </form>
+</view>

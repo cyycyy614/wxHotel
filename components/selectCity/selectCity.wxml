@@ -8,7 +8,7 @@
   <view class="location-info">
     <view class="location" wx:if="{{!city}}"><text class="label">当前位置：</text><text class="current-location">{{currentLocation}}</text></view>
     <view class="location">
-    <text class="label">选择城市：</text>
+    <text class="label" data-city="{{city}}">选择城市：</text>
     <image src='../../res/images/ic_city_location.png' mode='aspectFit' class='icon' bindtap='getLocalLocation' />
     <text class="current-city">{{city || '暂无城市'}}</text>
     </view>

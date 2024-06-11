@@ -1,0 +1,54 @@
+/* pages/userLogin/userLogin.wxss */
+page{
+  background-color: #eeecec;
+}
+.form{
+  display: block;
+}
+.formCnt{
+  border-bottom: 1px solid #e2e2e2;
+}
+.page-section{
+  display: flex;
+  padding: 32rpx 0;
+  margin: 0 32rpx;
+  align-items: center;
+  border-bottom: 1px solid #e2e2e2;
+}
+.page-section.nborder{
+  border-bottom: 0 none;
+}
+
+.page-section .page-section-title{
+  font-size: 24rpx;
+  width: 80px;
+}
+.page-section .weui-input{
+  font-size: 32rpx;
+  flex: 1;
+}
+.page-section-comp{
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.code{
+  width: 70px;
+  letter-spacing: 1px;
+  color: #bf652e;
+  font-size: 24rpx;
+  border-left: 1px solid #e2e2e2;
+  padding-left: 20rpx;
+}
+
+.commonBtn{
+  line-height: 1.5;
+}
+.btn-area{
+  padding-bottom: 40rpx;
+}
+.commonBtn.grey{
+  background: #f7f5f5;
+  color: #333333;
+  border: 1px solid #e2e2e2;
+}

@@ -1,4 +1,5 @@
 // pages/homePage/homePage.js
+const { getRequest } = require('../../utils/http.js');
 var app = getApp();
 var locationUrl = 'https://apis.map.qq.com/ws/geocoder/v1/';
 const tencentMapKey = 'ZNDBZ-W3YR6-6KXSB-MLKXV-6HFXK-UMFOT';
@@ -116,7 +117,7 @@ Page({
     var that = this;
     wx.getLocation({
       success: function (res) {
-        app.func.httpRequest(locationUrl, {
+        getRequest(locationUrl, {
           key: tencentMapKey,
           location: res.latitude + ',' + res.longitude
         }, 'GET', {
@@ -145,10 +146,11 @@ Page({
   },
 
   selectCity: function (e) {
-    const city = e.currentTarget.dataset.city;
+    const city = e.currentTarget.dataset.city || '';
+    console.log('select-city', city)
     this.setData({
       isShowSelectCity: true,
-      city: city
+      currentCity: city
     })
   },
 

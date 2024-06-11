@@ -9,7 +9,7 @@ Page({
       */
      data: {
           userTitle: '点击登录',
-          userHead: '../../res/images/ic_mine_normal.png'
+          userHead: '../../res/images/avatar.png'
      },
 
      /**
@@ -24,6 +24,12 @@ Page({
                current: this.data.userHead,
                urls: [this.data.userHead]
           })
+     },
+
+     loginSelectTap: function () {
+      wx.navigateTo({
+        url: '/pages/loginSelect/loginSelect',
+      })
      },
 
      loginTap: function () {

@@ -21,6 +21,18 @@
      background: #ccc;
 }
 
+.card{
+  border-radius: 20rpx;
+  margin: 32rpx;
+  background-color: #ffffff;
+
+}
+.textBtn{
+  display: block;
+  font-size: 30rpx;
+  color: #333333;
+  text-align: center;
+}
 .commonBtn, .commonBtnHover {
      display: block;
      color: white;
