@@ -1,7 +1,6 @@
 // components/selectCity/selectCity.js
 var cities = require('../../common/city.js');
 var letterLineHeight = 0;
-const { getHotelCityAddressList } = require('../../api/home.js');
 
 Component({
     //  externalClasses: ['letter-class', 'item-class'],
@@ -96,42 +95,28 @@ Component({
      },
 
      attached: function () {
-          getHotelCityAddressList().then(res => {
-            const list = [
-              {
-                "id": 1,
-                "hotelId": 1,
-                "hotelNameStr": "酒店1",
-                "provinceCode": "string",
-                "provinceName": "string",
-                "cityCode": "string",
-                "cityName": "string",
-                "regionCode": "string",
-                "regionName": "string",
-                "address": "string",
-                "longitude": 0,
-                "latitude": 0,
-                "remark": "string"
-              },
-              {
-                "id": 2,
-                "hotelId": 2,
-                "hotelNameStr": "酒店2",
-                "provinceCode": "string",
-                "provinceName": "string",
-                "cityCode": "string",
-                "cityName": "string",
-                "regionCode": "string",
-                "regionName": "string",
-                "address": "string",
-                "longitude": 0,
-                "latitude": 0,
-                "remark": "string"
-              }
-            ]
-            this.setData({
-              allCities: res.data.length ? res.data : list
-            });
+          var that = this;
+          var cityArray = [];
+          for (var key in cities.cities) {
+               var cityObject = new Object();
+               cityObject.letter = key;
+               cityObject.cityList = cities.cities[key];
+
+               cityArray.push(cityObject);
+          }
+
+          this.setData({
+               allCities: cityArray
+          });
+          console.log(this.data)
+          wx.getSystemInfo({
+               success: function (res) {
+                    letterLineHeight = (res.windowHeight - 80) / that.data.allCities.length;
+                    that.setData({
+                         letterTop: res.windowHeight / 2 - 30,
+                         letterLeft: res.windowWidth / 2 - 30
+                    });
+               }
           })
      }
 })

@@ -1,7 +1,7 @@
 <!--pages/homePage/homePage.wxml-->
 <swiper class='homeHeader' indicator-dots autoplay interval='3000' circular skip-hidden-item-layout>
-     <swiper-item class='swiper' wx:for="{{homeAdvertises}}" wx:key="id">
-          <image src='{{item.imgSrc}}' mode='aspectFill' class='swiper' bindtap='homeAdvertisesTap' data-index='{{index}}'></image>
+     <swiper-item class='swiper' wx:for="{{homeAdvertises}}" wx:key="index">
+          <image src='{{item}}' mode='aspectFill' class='swiper' bindtap='homeAdvertisesTap' data-index='{{index}}'></image>
      </swiper-item>
 </swiper>
 

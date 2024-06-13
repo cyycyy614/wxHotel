@@ -15,12 +15,15 @@
   </view>
   <!-- 城市列表 -->
   <scroll-view class='cityList' scroll-y scroll-into-view='{{currentIndex}}' scroll-top='{{scrollTop}}'>
-    <view class='item-class' wx:for='{{allCities}}' wx:for-item='item' wx:key='id' bindtap='citySelectEvent' data-row='{{item}}'>{{item.hotelNameStr}}</view>
+    <view wx:for='{{allCities}}' wx:key="index">
+      <view class='letter-class' id="id{{index}}">{{item.letter}}</view>
+      <view class='item-class' wx:for='{{item.cityList}}' wx:for-item='cityItem' wx:key='id' bindtap='citySelectEvent' data-row='{{cityItem}}'>{{cityItem.name}}</view>
+    </view>
   </scroll-view>
 
-  <!-- <view class='citySlide' catchtouchstart='slideStart' catchtouchmove='slideMove' catchtouchend='slideEnd'>
+  <view class='citySlide' catchtouchstart='slideStart' catchtouchmove='slideMove' catchtouchend='slideEnd'>
     <view class='citySlideItem' wx:for='{{allCities}}' wx:key="index" data-index='{{index}}'>{{item.letter}}</view>
   </view>
 
-  <text class='letterText' hidden='{{isLetterHidden}}' style='top:{{letterTop}}px;left:{{letterLeft}}px'>{{letterText}}</text>-->
-</view> 
+  <text class='letterText' hidden='{{isLetterHidden}}' style='top:{{letterTop}}px;left:{{letterLeft}}px'>{{letterText}}</text>
+</view>

@@ -1,5 +1,7 @@
 // pages/homePage/homePage.js
-const { getRequest } = require('../../utils/http.js');
+const { getRequest, getRequestAbsolute } = require('../../utils/http.js');
+const { getHotelIndexImgList, getHotelCityAddressList, getVipPlan } = require('../../api/home.js');
+
 var app = getApp();
 var locationUrl = 'https://apis.map.qq.com/ws/geocoder/v1/';
 const tencentMapKey = 'ZNDBZ-W3YR6-6KXSB-MLKXV-6HFXK-UMFOT';
@@ -33,23 +35,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    homeAdvertises: [{
-        'imgSrc': '../../res/images/ic_home_advertise.png',
-        'id': '1'
-      },
-      {
-        'imgSrc': '../../res/images/ic_home_advertise.png',
-        'id': '2'
-      },
-      {
-        'imgSrc': '../../res/images/ic_home_advertise.png',
-        'id': '3'
-      }
+    defaultBanner: '../../res/images/ic_home_advertise.png',
+    homeAdvertises: [
+      '../../res/images/ic_home_advertise.png',
+     '../../res/images/ic_home_advertise.png',
+     '../../res/images/ic_home_advertise.png'
     ],
     searchKey: '',
     isShowSelectCity: true,
     location: '定位中...',
-    currentLocation: '',
+    currentLocation: '定位中...',
     currentCity: '',
     cityId: '',
     startDate: '',
@@ -90,6 +85,7 @@ Page({
    */
   onLoad: function (options) {
     this.getLocalLocation();
+    this.getBannerList();
 
     startDate = currentDate;
     startYear = currentYear;
@@ -100,6 +96,18 @@ Page({
     this.initEndDate();
 
     this.setSearchDate();
+  },
+
+
+  // 获取首页图片
+  getBannerList: function (e) {
+    getHotelIndexImgList().then(res => {
+      let list = res.data || []
+      list = list.length ? list : [this.data.defaultBanner]
+      this.setData({
+        homeAdvertises: list
+      })
+    })
   },
 
   homeAdvertisesTap: function (e) {
@@ -117,25 +125,24 @@ Page({
     var that = this;
     wx.getLocation({
       success: function (res) {
-        getRequest(locationUrl, {
+        getRequestAbsolute(locationUrl, {
           key: tencentMapKey,
           location: res.latitude + ',' + res.longitude
-        }, 'GET', {
-          'content-type': 'application/json'
-        }, function (result) {
+        }).then(result => {
           console.log(result)
           if (result) {
+            const address = result.result.address_component
             that.setData({
-              currentLocation: result.result.address_component.district,
-              location: result.result.address_component.district
+              currentLocation: address.district || address.ad_level_2,
+              location: address.district || address.ad_level_2
             });
           } else {
             that.setData({
               location: '定位失败',
-              currentLocation: ''
+              currentLocation: '定位中...'
             });
           }
-        });
+        })
       },
       fail: function (res) {
         that.setData({

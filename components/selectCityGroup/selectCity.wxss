@@ -1,0 +1,119 @@
+/* components/selectCity/selectCity.wxss */
+.select-city{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.cityList {
+     width: 100%;
+     flex: 1;
+     display: flex;
+     flex-direction: column;
+     overflow: auto;
+}
+
+
+.citySlide {
+  display: flex;
+  flex-direction: column;
+  width: 60rpx;
+  position: absolute;
+  top: 50%;
+  right: 16rpx;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+}
+
+.citySlideItem {
+     width: 100%;
+     padding: 10rpx;
+     flex: 1;
+     text-align: center;
+     font-size: 24rpx;
+}
+
+.cityListLetter {
+  width: 100%;
+  padding: 16rpx 24rpx 0rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #ff7676;
+  /* background-color: skyblue; */
+}
+.letter-class {
+  background-color: #f5f5f5;
+  width: 100%;
+  padding: 24rpx 24rpx;
+  font-size: 24rpx;
+  color: #999999;
+  /* background-color: skyblue; */
+}
+
+.item-class {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30rpx 10rpx 20rpx 10rpx;
+  margin-left: 14rpx;
+  font-size: 30rpx;
+  background-color: white;
+  border-bottom: #f5f5f5 1rpx solid;
+}
+
+.letterText {
+     position: absolute;
+     width: 80px;
+     height: 80px;
+     line-height: 80px;
+     text-align: center;
+     font-size: 30rpx;
+     color: white;
+     border-radius: 12rpx;
+     background-color: #bbb;
+     opacity: 0.8;
+}
+
+.location-info{
+  font-size: 28rpx;
+  color: #333;
+}
+.location-info .icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+.location-info .label{
+  font-size: 24rpx;
+  color: #999999;
+}
+.location-info .location{
+  padding: 16rpx 20rpx;
+}
+.location-info .current-location{
+  color: #bf652e;
+}
+.current-city {
+  margin-left: 10rpx;
+  font-size: 30rpx;
+}
+
+.select-city-head{
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 30rpx ;
+}
+.select-city-head .title{
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #000000;
+}
+.select-city-head .close{
+  position: absolute;
+  right: 20rpx;
+  top: 30rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+

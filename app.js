@@ -1,9 +1,9 @@
 //app.js
-const { getOpenId } = require('api/login.js');
+const { getOpenId, login } = require('api/login.js');
 const commonUtils = require('common/commonUtils');
 
 App({
-     onLaunch: function () {
+     onLaunch: async function () {
           wx.setEnableDebug({
                enableDebug: true
           })
@@ -19,49 +19,62 @@ App({
                     }
                },
           });
-
-          this.loginWx();
+          const token = wx.getStorageSync( 'token');
+          if(!!token) return
+          await this.loginWx();
      },
      loginWx: function () {
-          // 登录
-          wx.login({
-               success: loginRes => {
-                    // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                    console.log(res)
-                    getOpenId({code: loginRes.code}).then( res => {
-                      if (res.state) {
-                        this.globalData.phone = res.data.phone;            
-                        wx.setStorage({
-                          data: res.data.sessionId,
-                          key: 'sessionId',
-                        });
+       return new Promise((resolve, reject) => {
+         // 登录
+         wx.login({
+              success: async loginRes => {
+                   // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                   console.log(loginRes)
+                   const loginParams = {
+                     "clientId": "957765378995b52f582c7d39b01bd5fb",
+                     "grantType": "xcx",
+                     "tenantId": "438009",
+                     "xcxAppId": "wx6a794add2354b4de",
+                     "xcxCode": loginRes.code
+                   }
+                   await login(loginParams).then(res => {
+                      console.log('login-res', res)
+                      resolve(res)
+                      if(res.code === 200) {
+                       wx.setStorageSync( 'token', res.data.access_token);
+                       wx.setStorageSync( 'openId', res.data.openid);
+                       wx.setStorageSync( 'custId', res.data.custId);
+                       wx.setStorageSync( 'custVipLevel', res.data.custVipLevel);
+                       wx.setStorageSync( 'hotelId', res.data.hotelId);
+                      } else {
+                        wx.showToast({
+                          title: res.message
+                        })
                       }
-                      else {
-                        console.log(res.msg);
-                      }
-                    })
-               }
-          })
-          // 获取用户信息
-          wx.getSetting({
-               success: res => {
-                    if (res.authSetting['scope.userInfo']) {
-                         // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-                         wx.getUserInfo({
-                              success: res => {
-                                   // 可以将 res 发送给后台解码出 unionId
-                                   this.globalData.userInfo = res.userInfo
+                   })
+              }
+         })
+         // 获取用户信息
+         wx.getSetting({
+              success: res => {
+                   if (res.authSetting['scope.userInfo']) {
+                        // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+                        wx.getUserInfo({
+                             success: res => {
+                                  // 可以将 res 发送给后台解码出 unionId
+                                  this.globalData.userInfo = res.userInfo
 
-                                   // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-                                   // 所以此处加入 callback 以防止这种情况
-                                   if (this.userInfoReadyCallback) {
-                                        this.userInfoReadyCallback(res)
-                                   }
-                              }
-                         })
-                    }
-               }
-          })
+                                  // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+                                  // 所以此处加入 callback 以防止这种情况
+                                  if (this.userInfoReadyCallback) {
+                                       this.userInfoReadyCallback(res)
+                                  }
+                             }
+                        })
+                   }
+              }
+         })
+       })
      },
      globalData: {
           userInfo: null,

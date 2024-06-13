@@ -1,4 +1,5 @@
 // pages/loginSelect/loginSelect.js
+const { getMobile } = require('../../api/login.js');
 const app = getApp();
 Page({
 
@@ -38,6 +39,27 @@ Page({
         console.log(err)
       }
     })
+  },
+
+  getPhoneNumber(e) {
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      const code = e.detail.code;
+      getMobile({code: code}).then(res => {
+        console.log('getMOBILE', res)
+      }) // 这里调用登录/注册的接口
+    } else {
+    // 点击"不允许"
+    wx.showModal({
+        title: '提示',
+        content: '需要通过授权才能继续，请重新点击并授权！',
+        showCancel: false,
+        success: function(res) {
+          if (res.confirm) {
+            console.log('');
+          }
+        }
+      });
+    }
   },
 
   // 其他快捷登录
