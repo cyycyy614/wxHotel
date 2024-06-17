@@ -1,5 +1,5 @@
 // pages/searchHotel/searchHotel.js
-
+const { getHotelCityAddressList } = require('../../api/home.js');
 var mHotelList = [];
 
 function HotelBean() {
@@ -19,6 +19,8 @@ Page({
       * 页面的初始数据
       */
      data: {
+          isShowSelectCity: false,
+          cityList: [],
           location: '',
           hotelArray: [],
           loadenable: true,
@@ -30,8 +32,11 @@ Page({
       * 生命周期函数--监听页面加载
       */
      onLoad: function (options) {
+        
+         this.getCityList()
           this.setData({
-               location: options.location
+               location: options.location,
+               currentCity: options.location
           });
 
           for (var i = 0; i < 10; i++) {
@@ -51,6 +56,34 @@ Page({
                hotelArray: mHotelList
           });
      },
+
+       // 获取城市列表
+  getCityList: function (e) {
+    getHotelCityAddressList().then(res => {
+      let cityList = res.data || []
+      this.setData({
+        cityList: cityList
+      })
+    })
+  },
+
+  // 城市选择
+  onCitySelect: function (e) {
+    console.log('城市选择', e.detail);
+    const data = e.detail
+    this.setData({
+      location: data.city,
+      cityId: data.id,
+      isShowSelectCity: false
+    });
+  },
+
+    // 城市弹框关闭
+    onCityClose: function () {
+      this.setData({
+        isShowSelectCity: false
+      });
+    },
 
      filterMenuTap: function (e) {
           var index = e.currentTarget.dataset.index;
@@ -76,8 +109,8 @@ Page({
      },
 
      locationTap: function () {
-          wx.navigateTo({
-               url: '../select_city/select_city'
+          this.setData({
+            isShowSelectCity: true
           })
      },
 

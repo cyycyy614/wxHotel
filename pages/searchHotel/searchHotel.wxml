@@ -3,8 +3,10 @@
 
 <view class='pageHeader'>
      <view class='searchHeader'>
-          <text class='location' bindtap='locationTap'>{{location}}</text>
-          <image src='../../res/images/ic_down_arrow.png' mode='aspectFit' style='width:20rpx;height:20rpx;'></image>
+          <view class="search-city" bindtap='locationTap'>
+            <text class='location'>{{location}}</text>
+            <image src='../../res/images/ic_down_arrow.png' mode='aspectFit' style='width:20rpx;height:20rpx;'></image>
+          </view>
           <clearInput style='flex:1' inputHint='搜索酒店' icon-class='common_search_img' input-class='common_search_input' confirmType='search' bind:inputListener='inputListener' bind:inputConfirm='searchEvent' />
      </view>
 
@@ -33,4 +35,9 @@
           <text style='margin-left:20rpx;'>正在加载更多</text>
      </view>
      <text wx:else class="loadmore">没有更多了</text>
+</view>
+
+<!-- 城市弹框 -->
+<view class="section-select-city" wx:if="{{isShowSelectCity}}">
+  <SelectCitiesView bind:citySelect='onCitySelect' bind:close='onCityClose' allCities="{{cityList}}" currentLocation='{{currentLocation}}' city='{{currentCity}}'></SelectCitiesView>
 </view>

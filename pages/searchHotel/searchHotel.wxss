@@ -2,6 +2,7 @@
  
 Page {
      width: 100%;
+     height: 100%;
      display: flex;
      flex-direction: column;
      justify-content: center;
@@ -201,4 +202,13 @@ Page {
      right: 0;
      bottom: 0;
      background: white;
+}
+
+.section-select-city{
+  position: fixed;
+  bottom: 0;
+  height: 80%;
+  width: 100%;
+  z-index: 100;
+  background-color: #ffffff;
 }

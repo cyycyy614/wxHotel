@@ -42,6 +42,7 @@ Page({
      '../../res/images/ic_home_advertise.png'
     ],
     searchKey: '',
+    cityList: [],
     isShowSelectCity: true,
     location: '定位中...',
     currentLocation: '定位中...',
@@ -84,6 +85,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if(app.globalData.isLogin) {
+      this.initPage()
+    } else {
+      app.loginCallback = flag => {
+        if(flag) {
+          this.initPage()
+        }
+      }
+    }
+
+  },
+
+
+  initPage: function() {
+    console.log('4444')
+    this.getCityList();
     this.getLocalLocation();
     this.getBannerList();
 
@@ -98,7 +115,15 @@ Page({
     this.setSearchDate();
   },
 
-
+  // 获取城市列表
+  getCityList: function (e) {
+    getHotelCityAddressList().then(res => {
+      let cityList = res.data || []
+      this.setData({
+        cityList: cityList
+      })
+    })
+  },
   // 获取首页图片
   getBannerList: function (e) {
     getHotelIndexImgList().then(res => {

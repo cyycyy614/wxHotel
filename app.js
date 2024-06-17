@@ -20,8 +20,42 @@ App({
                },
           });
           const token = wx.getStorageSync( 'token');
-          if(!!token) return
-          await this.loginWx();
+
+          if(!!token) {
+            this.globalData.isLogin = true
+          } else {
+            // 获取登录信息
+            const loginRes = await this.loginWx();
+            await this.getUserToken(loginRes);
+          }
+
+          if (this.loginCallback){
+            this.loginCallback(1);  // 执行自定义回调函数
+          }
+     },
+     getUserToken: function (loginRes) {
+      return new Promise(async (resolve, reject) => {
+        const loginParams = {
+          "clientId": "957765378995b52f582c7d39b01bd5fb",
+          "grantType": "xcx",
+          "tenantId": "438009",
+          "xcxAppId": "wx6a794add2354b4de",
+          "xcxCode": loginRes.code
+        }
+        const res = await login(loginParams)
+        if(res.code === 200) {
+          wx.setStorageSync( 'token', res.data.access_token);
+          wx.setStorageSync( 'openId', res.data.openid);
+          wx.setStorageSync( 'custId', res.data.custId);
+          wx.setStorageSync( 'custVipLevel', res.data.custVipLevel);
+          wx.setStorageSync( 'hotelId', res.data.hotelId);
+        } else {
+          wx.showToast({
+            title: res.message
+          })
+        }
+        resolve()
+      })
      },
      loginWx: function () {
        return new Promise((resolve, reject) => {
@@ -30,28 +64,7 @@ App({
               success: async loginRes => {
                    // 发送 res.code 到后台换取 openId, sessionKey, unionId
                    console.log(loginRes)
-                   const loginParams = {
-                     "clientId": "957765378995b52f582c7d39b01bd5fb",
-                     "grantType": "xcx",
-                     "tenantId": "438009",
-                     "xcxAppId": "wx6a794add2354b4de",
-                     "xcxCode": loginRes.code
-                   }
-                   await login(loginParams).then(res => {
-                      console.log('login-res', res)
-                      resolve(res)
-                      if(res.code === 200) {
-                       wx.setStorageSync( 'token', res.data.access_token);
-                       wx.setStorageSync( 'openId', res.data.openid);
-                       wx.setStorageSync( 'custId', res.data.custId);
-                       wx.setStorageSync( 'custVipLevel', res.data.custVipLevel);
-                       wx.setStorageSync( 'hotelId', res.data.hotelId);
-                      } else {
-                        wx.showToast({
-                          title: res.message
-                        })
-                      }
-                   })
+                   resolve(loginRes)
               }
          })
          // 获取用户信息
@@ -78,6 +91,7 @@ App({
      },
      globalData: {
           userInfo: null,
+          isLogin: false,
           isVersionHigh: false
      },
      func: {

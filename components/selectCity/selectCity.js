@@ -12,6 +12,9 @@ Component({
           allCities: {
                type: Array,
                value: cities,
+               observer(val) {
+                this.initData(val)   // 当visible变为true的时候 会触发initData
+               }
                // observer: citiesObserver
           },
           currentLocation: {
@@ -47,7 +50,7 @@ Component({
           // 选择
           citySelectEvent: function (e) {
                var row = e.target.dataset.row;
-               row.city = row.name
+               row.city = row.cityName
                this.triggerEvent('citySelect', row);
           },
 
@@ -92,46 +95,49 @@ Component({
                          isLetterHidden: true
                     });
                }, 200);
+          },
+
+          initData: function (e) {
           }
      },
 
      attached: function () {
-          getHotelCityAddressList().then(res => {
-            const list = [
-              {
-                "id": 1,
-                "hotelId": 1,
-                "hotelNameStr": "酒店1",
-                "provinceCode": "string",
-                "provinceName": "string",
-                "cityCode": "string",
-                "cityName": "string",
-                "regionCode": "string",
-                "regionName": "string",
-                "address": "string",
-                "longitude": 0,
-                "latitude": 0,
-                "remark": "string"
-              },
-              {
-                "id": 2,
-                "hotelId": 2,
-                "hotelNameStr": "酒店2",
-                "provinceCode": "string",
-                "provinceName": "string",
-                "cityCode": "string",
-                "cityName": "string",
-                "regionCode": "string",
-                "regionName": "string",
-                "address": "string",
-                "longitude": 0,
-                "latitude": 0,
-                "remark": "string"
-              }
-            ]
-            this.setData({
-              allCities: res.data.length ? res.data : list
-            });
-          })
+          // getHotelCityAddressList().then(res => {
+          //   const list = [
+          //     {
+          //       "id": 1,
+          //       "hotelId": 1,
+          //       "hotelNameStr": "酒店1",
+          //       "provinceCode": "string",
+          //       "provinceName": "string",
+          //       "cityCode": "string",
+          //       "cityName": "string",
+          //       "regionCode": "string",
+          //       "regionName": "string",
+          //       "address": "string",
+          //       "longitude": 0,
+          //       "latitude": 0,
+          //       "remark": "string"
+          //     },
+          //     {
+          //       "id": 2,
+          //       "hotelId": 2,
+          //       "hotelNameStr": "酒店2",
+          //       "provinceCode": "string",
+          //       "provinceName": "string",
+          //       "cityCode": "string",
+          //       "cityName": "string",
+          //       "regionCode": "string",
+          //       "regionName": "string",
+          //       "address": "string",
+          //       "longitude": 0,
+          //       "latitude": 0,
+          //       "remark": "string"
+          //     }
+          //   ]
+          //   this.setData({
+          //     allCities: res.data ? res.data : list
+          //   });
+          // })
      }
 })

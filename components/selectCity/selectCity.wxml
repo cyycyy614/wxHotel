@@ -15,7 +15,7 @@
   </view>
   <!-- 城市列表 -->
   <scroll-view class='cityList' scroll-y scroll-into-view='{{currentIndex}}' scroll-top='{{scrollTop}}'>
-    <view class='item-class' wx:for='{{allCities}}' wx:for-item='item' wx:key='id' bindtap='citySelectEvent' data-row='{{item}}'>{{item.hotelNameStr}}</view>
+    <view class='item-class' wx:for='{{allCities}}' wx:for-item='item' wx:key='id' bindtap='citySelectEvent' data-row='{{item}}'>{{item.cityName}}</view>
   </scroll-view>
 
   <!-- <view class='citySlide' catchtouchstart='slideStart' catchtouchmove='slideMove' catchtouchend='slideEnd'>

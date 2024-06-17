@@ -71,10 +71,12 @@
 <!-- 更多服务 -->
 <view class="more">
   <view class="more-title">更多服务</view>
-  
+  <view class="vip">
+    <image class="vip-img" src='../../res/images/vip.png' mode='aspectFit' bindtap='getLocalLocation' />
+  </view>
 </view>
 
 <!-- 城市弹框 -->
 <view class="section-select-city" wx:if="{{isShowSelectCity}}">
-  <SelectCitiesView bind:citySelect='onCitySelect' bind:close='onCityClose' currentLocation='{{currentLocation}}' city='{{currentCity}}'></SelectCitiesView>
+  <SelectCitiesView bind:citySelect='onCitySelect' bind:close='onCityClose' allCities="{{cityList}}" currentLocation='{{currentLocation}}' city='{{currentCity}}'></SelectCitiesView>
 </view>
